@@ -1,142 +1,286 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>AM4 SMP - Dashboard</title>
 
-    <link rel="stylesheet" href="dashboard.css?v=3">
+    <link rel="stylesheet" href="dashboard.css?v=5">
 </head>
 
 <body>
 
+    <!-- ================= NAVBAR ================= -->
+
     <header class="navbar">
 
         <div class="brand">
+
             <img src="logo.png" alt="AM4 SMP">
+
             <div>
                 <h2>AM4 SMP</h2>
                 <span>Survival Multiplayer</span>
             </div>
+
         </div>
 
-        <button id="menuBtn" class="menu-btn" aria-label="فتح القائمة">
+
+        <!-- Burger Button -->
+
+        <button
+            id="menuBtn"
+            class="menu-btn"
+            aria-label="فتح القائمة">
+
             ☰
+
         </button>
 
     </header>
 
 
-    <!-- القائمة الجانبية -->
+
+    <!-- ================= OVERLAY ================= -->
+
     <div id="overlay" class="overlay"></div>
+
+
+
+    <!-- ================= SIDE MENU ================= -->
 
     <aside id="sideMenu" class="side-menu">
 
         <div class="menu-header">
+
             <div>
+
                 <h2>AM4 SMP</h2>
-                <p>القائمة الرئيسية</p>
+
+                <p>
+                    القائمة الرئيسية
+                </p>
+
             </div>
 
-            <button id="closeMenu" class="close-btn">×</button>
+
+            <button
+                id="closeMenu"
+                class="close-btn">
+
+                ×
+
+            </button>
+
         </div>
 
 
-        <div class="menu-links">
+
+        <nav class="menu-links">
+
+            <!-- الرئيسية -->
 
             <a href="dashboard.html">
-                🏠
-                <span>الرئيسية</span>
+
+                <span class="menu-icon">
+                    🏠
+                </span>
+
+                <span>
+                    الرئيسية
+                </span>
+
             </a>
 
-            <a href="#server-info">
-                🎮
-                <span>معلومات الدخول</span>
+
+
+            <!-- معلومات الدخول -->
+
+            <a href="server.html">
+
+                <span class="menu-icon">
+                    🎮
+                </span>
+
+                <span>
+                    معلومات الدخول
+                </span>
+
             </a>
+
+
+
+            <!-- الأخبار -->
 
             <a href="#news">
-                📰
-                <span>الأخبار</span>
+
+                <span class="menu-icon">
+                    📰
+                </span>
+
+                <span>
+                    الأخبار
+                </span>
+
             </a>
+
+
+
+            <!-- الحساب -->
 
             <a href="#account">
-                👤
-                <span>حسابي</span>
+
+                <span class="menu-icon">
+                    👤
+                </span>
+
+                <span>
+                    حسابي
+                </span>
+
             </a>
 
-        </div>
+        </nav>
 
 
-        <!-- معلومات السيرفر -->
+
+        <!-- Server Mini Info -->
+
         <div class="server-menu-info">
 
-            <h3>🎮 دخول السيرفر</h3>
+            <div class="server-menu-title">
 
-            <div class="mini-server">
-                <strong>Java Edition</strong>
-                <p>am4.tkmc.net</p>
+                <span>🎮</span>
+
+                <h3>
+                    AM4 SMP
+                </h3>
+
             </div>
 
-            <div class="mini-server">
-                <strong>Bedrock Edition</strong>
-                <p>node-de-free-01.tickhosting.com</p>
-                <p>Port: 51453</p>
-            </div>
+
+            <p>
+                سيرفر ماينكرافت الخاص بيك
+            </p>
+
+
+            <a
+                href="server.html"
+                class="server-menu-button">
+
+                معلومات الدخول
+
+            </a>
 
         </div>
 
     </aside>
 
 
+
+    <!-- ================= MAIN ================= -->
+
     <main class="container">
 
-        <!-- الترحيب -->
+
+        <!-- ================= WELCOME ================= -->
+
         <section class="welcome">
-            <span class="welcome-label">AM4 SMP</span>
+
+            <span class="welcome-label">
+                AM4 SMP
+            </span>
+
 
             <h1 id="welcomeName">
                 أهلاً بيك 👋
             </h1>
 
+
             <p>
-                نورت السيرفر! من هنا تقدر تعرف معلومات حسابك
-                وتوصل لكل معلومات AM4.
+                نورت AM4 SMP، من هنا تقدر تشوف حسابك
+                وآخر أخبار السيرفر.
             </p>
+
         </section>
 
 
-        <!-- معلومات الحساب -->
-        <section id="account" class="section">
+
+        <!-- ================= ACCOUNT ================= -->
+
+        <section
+            id="account"
+            class="section">
+
 
             <div class="section-title">
-                <span>👤</span>
+
+                <span>
+                    👤
+                </span>
+
+
                 <div>
-                    <h2>معلومات حسابك</h2>
-                    <p>بيانات حساب Discord المتصل</p>
+
+                    <h2>
+                        معلومات حسابك
+                    </h2>
+
+                    <p>
+                        بيانات حساب Discord المتصل
+                    </p>
+
                 </div>
+
             </div>
+
 
 
             <div class="account-card">
 
-                <img id="avatar" class="avatar" src="logo.png" alt="Avatar">
+
+                <img
+                    id="avatar"
+                    class="avatar"
+                    src="logo.png"
+                    alt="Discord Avatar">
+
+
 
                 <div class="account-info">
 
-                    <h2 id="displayName">جاري التحميل...</h2>
 
-                    <p id="username">@username</p>
+                    <h2 id="displayName">
+                        جاري التحميل...
+                    </h2>
+
+
+                    <p id="username">
+                        @username
+                    </p>
+
 
                     <div class="account-id">
+
                         ID:
-                        <span id="userId">...</span>
+
+                        <span id="userId">
+                            ...
+                        </span>
+
                     </div>
+
 
                     <div class="connected">
+
                         <span></span>
+
                         متصل بحساب Discord
+
                     </div>
+
 
                 </div>
 
@@ -145,144 +289,165 @@
         </section>
 
 
-        <!-- معلومات السيرفر -->
-        <section id="server-info" class="section">
 
-            <div class="section-title">
-                <span>🎮</span>
-                <div>
-                    <h2>معلومات دخول السيرفر</h2>
-                    <p>اختار النسخة اللي بتلعب بيها</p>
-                </div>
-            </div>
+        <!-- ================= MEMBERSHIP ================= -->
 
-
-            <div class="server-grid">
-
-                <div class="server-card">
-
-                    <div class="server-icon">☕</div>
-
-                    <div class="server-content">
-
-                        <span class="edition">JAVA EDITION</span>
-
-                        <h3>Java</h3>
-
-                        <div class="ip-box">
-                            <span id="javaIP">am4.tkmc.net</span>
-
-                            <button class="copy-btn"
-                                onclick="copyText('javaIP', this)">
-                                نسخ
-                            </button>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="server-card">
-
-                    <div class="server-icon">🪨</div>
-
-                    <div class="server-content">
-
-                        <span class="edition">BEDROCK EDITION</span>
-
-                        <h3>Bedrock</h3>
-
-                        <div class="ip-box">
-                            <span id="bedrockIP">
-                                node-de-free-01.tickhosting.com
-                            </span>
-
-                            <button class="copy-btn"
-                                onclick="copyText('bedrockIP', this)">
-                                نسخ
-                            </button>
-                        </div>
-
-                        <div class="port">
-                            Port:
-                            <strong id="bedrockPort">51453</strong>
-
-                            <button class="copy-port"
-                                onclick="copyText('bedrockPort', this)">
-                                نسخ
-                            </button>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- حالة العضوية -->
         <section class="section">
 
+
             <div class="section-title">
-                <span>🛡️</span>
+
+                <span>
+                    🛡️
+                </span>
+
 
                 <div>
-                    <h2>عضويتك في AM4</h2>
-                    <p>حالة حسابك داخل السيرفر</p>
+
+                    <h2>
+                        عضويتك في AM4
+                    </h2>
+
+                    <p>
+                        حالة حسابك داخل السيرفر
+                    </p>
+
                 </div>
+
             </div>
+
 
 
             <div class="membership-card">
+
 
                 <div class="membership-icon">
                     ✓
                 </div>
 
+
                 <div>
+
                     <h3 id="membershipStatus">
                         جاري التحقق...
                     </h3>
 
+
                     <p id="membershipRole">
                         يتم التحقق من عضويتك
                     </p>
+
                 </div>
+
 
             </div>
 
         </section>
 
 
-        <!-- الأخبار -->
-        <section id="news" class="section">
+
+        <!-- ================= NEWS ================= -->
+
+        <section
+            id="news"
+            class="section">
+
 
             <div class="section-title">
-                <span>📰</span>
+
+                <span>
+                    📰
+                </span>
+
 
                 <div>
-                    <h2>آخر الأخبار</h2>
-                    <p>كل جديد في AM4 SMP</p>
+
+                    <h2>
+                        آخر الأخبار
+                    </h2>
+
+                    <p>
+                        كل جديد في AM4 SMP
+                    </p>
+
                 </div>
+
             </div>
 
 
-            <div id="newsContainer" class="news-grid"></div>
+
+            <div
+                id="newsContainer"
+                class="news-grid">
+
+            </div>
+
 
         </section>
+
+
+
+        <!-- ================= SERVER LINK ================= -->
+
+        <section class="server-shortcut">
+
+
+            <div>
+
+                <span>
+                    🎮
+                </span>
+
+
+                <div>
+
+                    <h3>
+                        عايز تدخل السيرفر؟
+                    </h3>
+
+                    <p>
+                        شوف IP والـ Port من صفحة معلومات الدخول.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a href="server.html">
+
+                معلومات الدخول
+
+                <span>
+                    ←
+                </span>
+
+            </a>
+
+
+        </section>
+
 
     </main>
 
 
+
+    <!-- ================= FOOTER ================= -->
+
     <footer>
-        <p>© 2026 AM4 SMP — كل الحقوق محفوظة</p>
+
+        <p>
+            © 2026 AM4 SMP — كل الحقوق محفوظة
+        </p>
+
     </footer>
 
 
-    <script src="dashboard.js?v=3"></script>
+
+    <!-- ================= SCRIPT ================= -->
+
+    <script src="dashboard.js?v=5"></script>
 
 </body>
+
 </html>
