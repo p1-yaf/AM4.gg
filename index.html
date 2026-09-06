@@ -3,40 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AM4 Minecraft Server</title>
+    <title>AM4 Server - Countdown</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <div class="container">
-        <!-- عنوان أو شعار -->
-        <h1 class="title">AM4 SERVER LAUNCH</h1>
+    <div class="overlay"></div>
 
-        <!-- عداد فتح الموقع بشكل كامل (ساعة) -->
-        <div class="timer-box">
-            <p>متبقي على فتح الموقع بالكامل:</p>
-            <div id="site-countdown" class="countdown">01:00:00</div>
+    <div class="main-card">
+        <div class="logo-container">
+            <img src="335694.png" alt="AM4 Logo" class="server-logo">
         </div>
 
-        <!-- عداد فتح سيرفر ماين كرافت (نص ساعة) -->
-        <div class="timer-box">
-            <p>متبقي على فتح سيرفر ماين كرافت:</p>
-            <div id="server-countdown" class="countdown">00:30:00</div>
+        <h1 class="main-title">انطلاق سيرفر AM4</h1>
+        <p class="subtitle">استعد لدخول أقوى مغامرة ماين كرافت</p>
+
+        <!-- عداد فتح الموقع (ساعة) -->
+        <div class="countdown-section">
+            <div class="section-label"><i class="fa-solid fa-globe"></i> متبقي على فتح الموقع بالكامل:</div>
+            <div id="site-timer" class="timer-display">01:00:00</div>
         </div>
 
-        <!-- معلومات الدخول بتظهر بعد انتهاء نص ساعة السيرفر -->
-        <div id="server-info" class="server-info hidden">
-            <h2>🎉 تم فتح السيرفر بنجاح!</h2>
-            
-            <div class="info-card">
-                <h3>معلومات دخول الجافا (Java Edition):</h3>
-                <p class="copy-text" onclick="copyText('am4.tkmc.net')">am4.tkmc.net <span>(اضغط للنسخ)</span></p>
+        <!-- عداد فتح السيرفر (نص ساعة) -->
+        <div class="countdown-section">
+            <div class="section-label"><i class="fa-solid fa-server"></i> متبقي على فتح سيرفر ماين كرافت:</div>
+            <div id="server-timer" class="timer-display">00:30:00</div>
+        </div>
+
+        <!-- معلومات دخول السيرفر (مخفية ولا تظهر إلا بعد انتهاء وقت النص ساعة) -->
+        <div id="server-info" class="server-info-box hidden">
+            <div class="success-banner">
+                <i class="fa-solid fa-circle-check"></i> تم فتح السيرفر بنجاح!
             </div>
 
+            <!-- معلومات الجافا -->
             <div class="info-card">
-                <h3>معلومات دخول البدروك (Bedrock Edition):</h3>
-                <p><strong>الـ IP:</strong> <span class="copy-text" onclick="copyText('node-de-free-01.tickhosting.com')">node-de-free-01.tickhosting.com <span>(اضغط للنسخ)</span></span></p>
-                <p><strong>البورت (Port):</strong> <span class="copy-text" onclick="copyText('51453')">51453 <span>(اضغط للنسخ)</span></span></p>
+                <h3><i class="fa-solid fa-laptop-code"></i> Java Edition</h3>
+                <div class="copy-box" onclick="copyToClipboard('am4.tkmc.net', this)">
+                    <span class="ip-text">am4.tkmc.net</span>
+                    <span class="copy-hint"><i class="fa-regular fa-copy"></i> اضغط للنسخ</span>
+                </div>
+            </div>
+
+            <!-- معلومات البدروك -->
+            <div class="info-card">
+                <h3><i class="fa-solid fa-mobile-screen"></i> Bedrock Edition</h3>
+                <div class="bedrock-details">
+                    <div class="copy-box" onclick="copyToClipboard('node-de-free-01.tickhosting.com', this)">
+                        <span class="label">IP:</span> <span class="ip-text">node-de-free-01.tickhosting.com</span>
+                        <span class="copy-hint"><i class="fa-regular fa-copy"></i> ناسخ</span>
+                    </div>
+                    <div class="copy-box small-box" onclick="copyToClipboard('51453', this)">
+                        <span class="label">Port:</span> <span class="ip-text">51453</span>
+                        <span class="copy-hint"><i class="fa-regular fa-copy"></i> ناسخ</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
