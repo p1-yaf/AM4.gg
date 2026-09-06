@@ -1,14 +1,13 @@
-// تحديد وقت انتهاء العدائين بشكل ثابت للموقع كله (مثلاً بعد ساعة للـ سايت، وبعد نص ساعة للسيرفر من الآن)
-// يتم حفظ وقت الانتهاء في المتصفح (localStorage) عشان لو حد عمل ريفرش الوقت يفضل ثابت وميبدأش من الأول!
-
-const SITE_DURATION = 3600; // ساعة بالثواني
-const SERVER_DURATION = 1800; // نص ساعة بالثواني
+// وقت الموقع (ساعة = 3600 ثانية) وقت السيرفر (نصف ساعة = 1800 ثانية)
+const SITE_DURATION = 3600;
+const SERVER_DURATION = 1800;
 
 function getTargetTime(key, durationInSeconds) {
     let savedTime = localStorage.getItem(key);
     let now = Math.floor(Date.now() / 1000);
     
-    if (!savedTime || savedTime < now) {
+    // لو مفيش وقت محفوظ أو الوقت القديم خلص، بنعمل وقت جديد يبدأ من دلوقتي
+    if (!savedTime || parseInt(savedTime, 10) < now) {
         let target = now + durationInSeconds;
         localStorage.setItem(key, target);
         return target;
@@ -16,51 +15,57 @@ function getTargetTime(key, durationInSeconds) {
     return parseInt(savedTime, 10);
 }
 
-// وقت انتهاء السايت والسيرفر
-const siteTarget = getTargetTime('am4_site_target', SITE_DURATION);
-const serverTarget = getTargetTime('am4_server_target', SERVER_DURATION);
+const siteTarget = getTargetTime('am4_site_target_v2', SITE_DURATION);
+const serverTarget = getTargetTime('am4_server_target_v2', SERVER_DURATION);
 
 function updateTimers() {
     let now = Math.floor(Date.now() / 1000);
 
-    // عداد الموقع
+    // --- عداد الموقع ---
     let siteLeft = siteTarget - now;
+    let siteTimerElem = document.getElementById("site-timer");
+    
     if (siteLeft <= 0) {
-        document.getElementById("site-timer").innerText = "00:00:00";
+        siteTimerElem.innerText = "00:00:00";
+        siteTimerElem.classList.add("ended"); // تشغيل الأنيميشن الأحمر
     } else {
         let h = Math.floor(siteLeft / 3600);
         let m = Math.floor((siteLeft % 3600) / 60);
         let s = siteLeft % 60;
-        document.getElementById("site-timer").innerText = 
+        siteTimerElem.innerText = 
             String(h).padStart(2, '0') + ":" + 
             String(m).padStart(2, '0') + ":" + 
             String(s).padStart(2, '0');
+        siteTimerElem.classList.remove("ended");
     }
 
-    // عداد السيرفر
+    // --- عداد السيرفر ---
     let serverLeft = serverTarget - now;
+    let serverTimerElem = document.getElementById("server-timer");
+    let serverInfoBox = document.getElementById("server-info");
+
     if (serverLeft <= 0) {
-        document.getElementById("server-timer").innerText = "00:00:00";
-        // إظهار معلومات السيرفر فقط عند انتهاء النص ساعة تماماً
-        document.getElementById("server-info").classList.remove("hidden");
+        serverTimerElem.innerText = "00:00:00";
+        serverTimerElem.classList.add("ended"); // تشغيل الأنيميشن الأحمر للأرقام
+        serverInfoBox.classList.remove("hidden"); // إظهار معلومات السيرفر
     } else {
         let h = Math.floor(serverLeft / 3600);
         let m = Math.floor((serverLeft % 3600) / 60);
         let s = serverLeft % 60;
-        document.getElementById("server-timer").innerText = 
+        serverTimerElem.innerText = 
             String(h).padStart(2, '0') + ":" + 
             String(m).padStart(2, '0') + ":" + 
             String(s).padStart(2, '0');
-        // التأكد من إخفائها لو الوقت لسه مخلصش
-        document.getElementById("server-info").classList.add("hidden");
+        serverTimerElem.classList.remove("ended");
+        serverInfoBox.classList.add("hidden");
     }
 }
 
-// تحديث العداد كل ثانية
+// تحديث مستمر كل ثانية
 setInterval(updateTimers, 1000);
 updateTimers();
 
-// دالة نسخ الـ IP عند الضغط عليه
+// وظيفة نسخ الـ IP
 function copyToClipboard(text, element) {
     navigator.clipboard.writeText(text).then(() => {
         let hint = element.querySelector('.copy-hint');
