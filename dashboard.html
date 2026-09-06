@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#03070d">
+<title>AM4 SMP | الرئيسية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+<div class="bg"><div class="grid"></div><div class="blue-light one"></div><div class="blue-light two"></div></div>
+
+<header>
+    <a class="brand" href="dashboard.html"><img src="logo.png"><span>AM4 <b>SMP</b></span></a>
+    <nav><a class="active" href="dashboard.html">الرئيسية</a><a href="#news">الأخبار</a></nav>
+    <button id="logout" class="logout">خروج</button>
+</header>
+
+<main>
+    <section class="welcome">
+        <div>
+            <span class="eyebrow">AM4 SMP • DASHBOARD</span>
+            <h1>أهلاً بيك يا <span id="welcome-name">لاعب</span> 👋</h1>
+            <p>دي صفحتك في AM4. هنا هتلاقي حسابك، عضويتك في السيرفر وآخر الأخبار.</p>
+        </div>
+        <div class="status-pill"><i></i> AM4 شغال</div>
+    </section>
+
+    <section class="account-grid">
+        <article class="profile card">
+            <div class="section-title"><span>👤</span><div><b>معلومات حسابك</b><small>بيانات حساب Discord</small></div></div>
+            <div class="profile-main">
+                <div class="avatar-wrap"><img id="avatar"><i></i></div>
+                <div><h2 id="username">Player</h2><p id="userid">ID: —</p></div>
+            </div>
+            <div class="info-row"><span>اسم Discord</span><b id="discordname">—</b></div>
+            <div class="info-row"><span>الحساب</span><b class="green">متصل</b></div>
+        </article>
+
+        <article class="membership card">
+            <div class="section-title"><span>🛡️</span><div><b>عضويتك في AM4</b><small>حالتك داخل السيرفر</small></div></div>
+            <div id="member-box" class="member-box loading">بنشوف عضويتك في السيرفر...</div>
+            <div class="role"><span>الرتبة</span><strong id="role">جاري التحميل...</strong></div>
+        </article>
+    </section>
+
+    <section id="news" class="news-section">
+        <div class="section-head"><div><span class="eyebrow">LATEST NEWS</span><h2>آخر الأخبار</h2></div><span>كل جديد من AM4 هنا</span></div>
+        <div id="news-list" class="news-grid"></div>
+    </section>
+</main>
+
+<footer>© 2026 AM4 SMP — نورتنا ❤️</footer>
+<script src="dashboard.js"></script>
+</body>
+</html>
