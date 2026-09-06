@@ -1,0 +1,287 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    min-height: 100vh;
+}
+
+/* GitHub Header */
+.gh-header {
+    background-color: #161b22;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+}
+
+.gh-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gh-logo {
+    font-size: 24px;
+    color: #f0f6fc;
+}
+
+.gh-username {
+    font-weight: 600;
+    color: #58a6ff;
+    font-size: 14px;
+}
+
+.gh-badge {
+    border: 1px solid #30363d;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-size: 11px;
+    color: #8b949e;
+}
+
+.gh-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.gh-search-box {
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    padding: 4px 12px;
+    border-radius: 6px;
+    color: #8b949e;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 240px;
+}
+
+.gh-icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #c9d1d9;
+    cursor: pointer;
+}
+
+.gh-avatar {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #6e40c9, #1f6feb);
+    border-radius: 50%;
+}
+
+/* Repo Sub-Navigation */
+.repo-nav {
+    background-color: #0d1117;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    padding: 0 24px;
+    gap: 8px;
+}
+
+.repo-tab {
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #8b949e;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.repo-tab.active {
+    color: #f0f6fc;
+    border-bottom-color: #f78166;
+    font-weight: 600;
+}
+
+.counter {
+    background-color: rgba(110, 118, 129, 0.4);
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+/* Main Container Layout */
+.gh-container {
+    max-width: 1280px;
+    margin: 24px auto;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+}
+
+@media(max-width: 768px) {
+    .gh-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Readme Box */
+.gh-main-content {
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background-color: #0d1117;
+}
+
+.file-header {
+    background-color: #161b22;
+    padding: 12px 16px;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.markdown-body {
+    padding: 32px;
+}
+
+.markdown-body h1 {
+    font-size: 24px;
+    border-bottom: 1px solid #21262d;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    color: #f0f6fc;
+}
+
+.markdown-body h3 {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    color: #f0f6fc;
+}
+
+.markdown-body p, .markdown-body ul {
+    margin-bottom: 16px;
+    line-height: 1.5;
+    color: #8b949e;
+}
+
+.markdown-body ul {
+    padding-left: 20px;
+}
+
+.markdown-body li {
+    margin-bottom: 6px;
+}
+
+/* Code Snippet Box (Dark Purple / Glowing Theme) */
+.code-snippet {
+    background-color: #18122B; /* درجة الأرجواني الغامق المطلوبة */
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 16px;
+    font-family: monospace;
+    font-size: 13px;
+    color: #c9d1d9;
+    box-shadow: 0 0 10px rgba(110, 64, 201, 0.15);
+}
+
+.token-selector { color: #ff7b72; }
+.token-property { color: #79c0ff; }
+.token-value { color: #a5d6ff; }
+
+/* Sidebar */
+.gh-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sidebar-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #f0f6fc;
+}
+
+.about-text {
+    font-size: 14px;
+    color: #8b949e;
+    margin-bottom: 12px;
+}
+
+.sidebar-links a {
+    color: #58a6ff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.sidebar-links a:hover {
+    text-decoration: underline;
+}
+
+.sidebar-divider {
+    border: 0;
+    border-top: 1px solid #30363d;
+}
+
+.release-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #c9d1d9;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.release-link span {
+    background-color: #21262d;
+    border: 1px solid #30363d;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-size: 11px;
+    color: #58a6ff;
+}
+
+/* Languages Progress Bar */
+.language-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 6px;
+    overflow: hidden;
+    gap: 2px;
+    margin-bottom: 12px;
+}
+
+.lang-html { background-color: #e34c26; }
+.lang-css { background-color: #563d7c; }
+.lang-js { background-color: #f1e05a; }
+
+.language-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 12px;
+    color: #8b949e;
+}
+
+.language-list li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.dot.html { background-color: #e34c26; }
+.dot.css { background-color: #563d7c; }
+.dot.js { background-color: #f1e05a; }
