@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AM4 SMP - معلومات الدخول</title>
+
+    <link rel="stylesheet" href="dashboard.css?v=4">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="brand">
+        <img src="logo.png" alt="AM4 SMP">
+
+        <div>
+            <h2>AM4 SMP</h2>
+            <span>Survival Multiplayer</span>
+        </div>
+    </div>
+
+    <button id="menuBtn" class="menu-btn">
+        ☰
+    </button>
+
+</header>
+
+
+<div id="overlay" class="overlay"></div>
+
+
+<aside id="sideMenu" class="side-menu">
+
+    <div class="menu-header">
+
+        <div>
+            <h2>AM4 SMP</h2>
+            <p>القائمة الرئيسية</p>
+        </div>
+
+        <button id="closeMenu" class="close-btn">
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="menu-links">
+
+        <a href="dashboard.html">
+            🏠
+            <span>الرئيسية</span>
+        </a>
+
+        <a href="server.html">
+            🎮
+            <span>معلومات الدخول</span>
+        </a>
+
+        <a href="dashboard.html#news">
+            📰
+            <span>الأخبار</span>
+        </a>
+
+        <a href="dashboard.html#account">
+            👤
+            <span>حسابي</span>
+        </a>
+
+    </div>
+
+</aside>
+
+
+<main class="container">
+
+    <section class="welcome">
+
+        <span class="welcome-label">
+            AM4 SMP
+        </span>
+
+        <h1>
+            معلومات دخول السيرفر 🎮
+        </h1>
+
+        <p>
+            اختار النسخة اللي بتلعب بيها واستخدم البيانات دي للدخول للسيرفر.
+        </p>
+
+    </section>
+
+
+    <section class="server-grid">
+
+        <!-- JAVA -->
+
+        <div class="server-card">
+
+            <div class="server-icon">
+                ☕
+            </div>
+
+            <div class="server-content">
+
+                <span class="edition">
+                    JAVA EDITION
+                </span>
+
+                <h3>
+                    Minecraft Java
+                </h3>
+
+                <div class="ip-box">
+
+                    <span id="javaIP">
+                        am4.tkmc.net
+                    </span>
+
+                    <button
+                        class="copy-btn"
+                        onclick="copyText('javaIP', this)">
+                        نسخ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BEDROCK -->
+
+        <div class="server-card">
+
+            <div class="server-icon">
+                🪨
+            </div>
+
+            <div class="server-content">
+
+                <span class="edition">
+                    BEDROCK EDITION
+                </span>
+
+                <h3>
+                    Minecraft Bedrock
+                </h3>
+
+
+                <div class="ip-box">
+
+                    <span id="bedrockIP">
+                        node-de-free-01.tickhosting.com
+                    </span>
+
+                    <button
+                        class="copy-btn"
+                        onclick="copyText('bedrockIP', this)">
+                        نسخ
+                    </button>
+
+                </div>
+
+
+                <div class="port">
+
+                    Port:
+                    <strong id="bedrockPort">
+                        51453
+                    </strong>
+
+                    <button
+                        class="copy-port"
+                        onclick="copyText('bedrockPort', this)">
+                        نسخ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 AM4 SMP — كل الحقوق محفوظة
+    </p>
+
+</footer>
+
+
+<script src="server.js?v=4"></script>
+
+</body>
+
+</html>
