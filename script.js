@@ -1,156 +1,151 @@
 // ==========================================
-//     نظام العد التنازلي الموحد للجميع
-//         13 ساعة فقط لكل عداد
+//     نظام العد التنازلي - نسخة مستقرة
 // ==========================================
 
-// ====== ١. تحديد الأهداف بتوقيت UTC ======
-function getTargets() {
+// ====== ١. إعدادات ثابتة ======
+const TARGET_HOUR_SERVER = 18; // 6 مساءً
+const TARGET_HOUR_SITE = 19;   // 7 مساءً
+const MAX_HOURS = 13;          // 13 ساعة كحد أقصى
+
+// ====== ٢. حساب الأهداف ======
+function calculateTargets() {
     const now = new Date();
     
-    // نجيب بداية اليوم بتوقيت UTC
-    const todayUTC = Date.UTC(
-        now.getUTCFullYear(),
-        now.getUTCMonth(),
-        now.getUTCDate(),
-        0, 0, 0, 0
-    );
-    
-    // هدف السيرفر: 6 مساءً بتوقيت مصر = 16:00 UTC
-    let serverTarget = todayUTC + (16 * 3600 * 1000);
+    // هدف السيرفر: اليوم الساعة 6 مساءً
+    let serverTarget = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        TARGET_HOUR_SERVER,
+        0, 0, 0
+    ).getTime();
     
     // لو فات الوقت، نروح لليوم التالي
     if (Date.now() > serverTarget) {
         serverTarget += 24 * 3600 * 1000;
     }
     
-    // هدف الموقع: 7 مساءً بتوقيت مصر = 17:00 UTC
+    // هدف الموقع: بعد السيرفر بساعة
     let siteTarget = serverTarget + (1 * 3600 * 1000);
     
     return { serverTarget, siteTarget };
 }
 
-// ====== ٢. جلب الوقت الحقيقي من السيرفر ======
-let serverTimeOffset = 0;
-let targets = getTargets();
+// ====== ٣. المتغيرات العامة ======
+let targets = calculateTargets();
 let serverTarget = targets.serverTarget;
 let siteTarget = targets.siteTarget;
+let serverTimeOffset = 0;
+let timerInterval = null;
 
+// ====== ٤. جلب الوقت من السيرفر ======
 async function syncServerTime() {
     try {
-        // جلب الوقت من ٣ سيرفرات مختلفة للدقة
-        const urls = [
-            'https://timeapi.io/api/Time/current/zone?timeZone=Africa/Cairo',
-            'https://worldtimeapi.org/api/timezone/Africa/Cairo',
-            'https://api.timezonedb.com/v2.1/get-time-zone?key=YOUR_API_KEY&format=json&by=zone&zone=Africa/Cairo'
-        ];
-        
-        let serverTime = null;
-        
-        for (let url of urls) {
-            try {
-                const response = await fetch(url, {
-                    cache: 'no-store', // منع الكاش
-                    headers: {
-                        'Cache-Control': 'no-cache, no-store, must-revalidate',
-                        'Pragma': 'no-cache'
-                    }
-                });
-                const data = await response.json();
-                
-                // استخراج الوقت من الـ API
-                if (data.dateTime) {
-                    serverTime = new Date(data.dateTime).getTime();
-                    break;
-                } else if (data.datetime) {
-                    serverTime = new Date(data.datetime).getTime();
-                    break;
-                } else if (data.formatted) {
-                    serverTime = new Date(data.formatted).getTime();
-                    break;
-                }
-            } catch (e) {
-                console.warn('فشل الاتصال بـ:', url);
-                continue;
+        const response = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Africa/Cairo', {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
             }
-        }
+        });
         
-        if (serverTime) {
-            // حساب الفرق بين وقت السيرفر ووقت الجهاز
-            serverTimeOffset = serverTime - Date.now();
-            console.log('✅ تم مزامنة الوقت، الفرق:', serverTimeOffset, 'مللي ثانية');
-        } else {
-            console.warn('⚠️ فشل جلب الوقت من جميع السيرفرات، نستخدم وقت الجهاز');
-            serverTimeOffset = 0;
-        }
+        if (!response.ok) throw new Error('فشل الاتصال');
+        
+        const data = await response.json();
+        const serverTime = new Date(data.dateTime).getTime();
+        serverTimeOffset = serverTime - Date.now();
+        
+        console.log('✅ تم المزامنة، الفرق:', serverTimeOffset, 'مللي');
         
     } catch (error) {
-        console.error('❌ خطأ في المزامنة:', error);
+        console.warn('⚠️ فشل المزامنة، نستخدم وقت الجهاز');
         serverTimeOffset = 0;
     }
     
-    // تحديث العدادات فوراً
+    // تحديث فوري
     updateTimers();
 }
 
-// ====== ٣. تحديث العدادات ======
+// ====== ٥. تحديث العدادات (الجزء الأهم) ======
 function updateTimers() {
-    // الوقت الحقيقي المُصحح
+    // الوقت الحقيقي
     const now = Date.now() + serverTimeOffset;
     
-    // --- عداد السيرفر (١٣ ساعة) ---
+    // --- عداد السيرفر ---
     let serverLeft = Math.floor((serverTarget - now) / 1000);
-    const serverTimerElem = document.getElementById("server-timer");
-    const serverInfoBox = document.getElementById("server-info");
+    const serverTimerElem = document.getElementById('server-timer');
+    const serverInfoBox = document.getElementById('server-info');
     
     if (serverLeft <= 0) {
-        serverTimerElem.innerText = "00:00:00";
-        serverTimerElem.classList.add("ended");
-        serverInfoBox.classList.remove("hidden");
+        serverTimerElem.innerText = '00:00:00';
+        serverTimerElem.classList.add('ended');
+        if (serverInfoBox) serverInfoBox.classList.remove('hidden');
     } else {
-        // التأكد من أن الحد الأقصى ١٣ ساعة (46800 ثانية)
-        if (serverLeft > 46800) serverLeft = 46800;
+        // الحد الأقصى 13 ساعة
+        if (serverLeft > MAX_HOURS * 3600) serverLeft = MAX_HOURS * 3600;
         
         const h = String(Math.floor(serverLeft / 3600)).padStart(2, '0');
         const m = String(Math.floor((serverLeft % 3600) / 60)).padStart(2, '0');
         const s = String(serverLeft % 60).padStart(2, '0');
         serverTimerElem.innerText = `${h}:${m}:${s}`;
-        serverTimerElem.classList.remove("ended");
-        serverInfoBox.classList.add("hidden");
+        serverTimerElem.classList.remove('ended');
+        if (serverInfoBox) serverInfoBox.classList.add('hidden');
     }
     
-    // --- عداد الموقع (١٣ ساعة) ---
+    // --- عداد الموقع ---
     let siteLeft = Math.floor((siteTarget - now) / 1000);
-    const siteTimerElem = document.getElementById("site-timer");
+    const siteTimerElem = document.getElementById('site-timer');
     
     if (siteLeft <= 0) {
-        siteTimerElem.innerText = "00:00:00";
-        siteTimerElem.classList.add("ended");
+        siteTimerElem.innerText = '00:00:00';
+        siteTimerElem.classList.add('ended');
     } else {
-        // التأكد من أن الحد الأقصى ١٣ ساعة (46800 ثانية)
-        if (siteLeft > 46800) siteLeft = 46800;
+        // الحد الأقصى 13 ساعة
+        if (siteLeft > MAX_HOURS * 3600) siteLeft = MAX_HOURS * 3600;
         
         const h = String(Math.floor(siteLeft / 3600)).padStart(2, '0');
         const m = String(Math.floor((siteLeft % 3600) / 60)).padStart(2, '0');
         const s = String(siteLeft % 60).padStart(2, '0');
         siteTimerElem.innerText = `${h}:${m}:${s}`;
-        siteTimerElem.classList.remove("ended");
+        siteTimerElem.classList.remove('ended');
     }
+    
+    // تأكيد أن التحديث شغال (للتأكد في الـ Console)
+    console.log('🔄 تم التحديث:', new Date().toLocaleTimeString(), 'السيرفر:', serverTimerElem.innerText);
 }
 
-// ====== ٤. بدء التشغيل ======
-// مزامنة الوقت أولاً
-syncServerTime();
+// ====== ٦. بدء التشغيل ======
+async function init() {
+    console.log('🚀 بدء التشغيل...');
+    
+    // أولاً: مزامنة الوقت
+    await syncServerTime();
+    
+    // ثانياً: إيقاف أي مؤقت قديم
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    
+    // ثالثاً: تشغيل المؤقت الجديد
+    timerInterval = setInterval(updateTimers, 1000);
+    
+    // رابعاً: تحديث كل 5 دقائق لإعادة المزامنة
+    setInterval(syncServerTime, 300000);
+    
+    console.log('✅ النظام يعمل بنجاح');
+}
 
-// تحديث كل ثانية
-setInterval(updateTimers, 1000);
+// ====== ٧. تشغيل الكود ======
+init();
 
-// تحديث كل ٥ دقائق لإعادة المزامنة (للتأكد من الدقة)
-setInterval(syncServerTime, 300000);
-
-// ====== ٥. وظيفة نسخ IP ======
+// ====== ٨. وظيفة نسخ IP ======
 function copyToClipboard(text, element) {
+    if (!element) return;
+    
     navigator.clipboard.writeText(text).then(() => {
         const hint = element.querySelector('.copy-hint');
+        if (!hint) return;
         const originalText = hint.innerHTML;
         hint.innerHTML = '<i class="fa-solid fa-check"></i> تم النسخ!';
         hint.style.color = '#00ffcc';
@@ -159,7 +154,7 @@ function copyToClipboard(text, element) {
             hint.style.color = '#8da4c4';
         }, 2000);
     }).catch(() => {
-        // حل بديل للنسخ
+        // حل بديل
         const textarea = document.createElement('textarea');
         textarea.value = text;
         document.body.appendChild(textarea);
@@ -168,6 +163,7 @@ function copyToClipboard(text, element) {
         document.body.removeChild(textarea);
         
         const hint = element.querySelector('.copy-hint');
+        if (!hint) return;
         const originalText = hint.innerHTML;
         hint.innerHTML = '<i class="fa-solid fa-check"></i> تم النسخ!';
         hint.style.color = '#00ffcc';
