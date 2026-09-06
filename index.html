@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevPortfolio Hub - Modern Portfolio Website</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for GitHub Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- GitHub Header Navbar -->
+    <header class="gh-header">
+        <div class="gh-nav-left">
+            <i class="fa-brands fa-github gh-logo"></i>
+            <span class="gh-username">DevPortfolio-Hub</span>
+            <span class="gh-badge">Public</span>
+        </div>
+        <div class="gh-nav-right">
+            <div class="gh-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Type `/` to search</span>
+            </div>
+            <div class="gh-icons">
+                <i class="fa-regular fa-bell"></i>
+                <i class="fa-regular fa-square-plus"></i>
+                <div class="gh-avatar"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Navigation (Repository Menu) -->
+    <nav class="repo-nav">
+        <div class="repo-tab active"><i class="fa-solid fa-code"></i> Code</div>
+        <div class="repo-tab"><i class="fa-solid fa-circle-exclamation"></i> Issues <span class="counter">3</span></div>
+        <div class="repo-tab"><i class="fa-solid fa-code-pull-request"></i> Pull requests</div>
+        <div class="repo-tab"><i class="fa-solid fa-play"></i> Actions</div>
+        <div class="repo-tab"><i class="fa-solid fa-book-open"></i> Projects</div>
+    </nav>
+
+    <!-- Main Content Layout (GitHub Grid Style) -->
+    <main class="gh-container">
+        <!-- Left Side: Readme & Code Viewer -->
+        <div class="gh-main-content">
+            <div class="file-header">
+                <span><i class="fa-regular fa-file-lines"></i> README.md</span>
+                <span class="file-actions"><i class="fa-solid fa-pen"></i></span>
+            </div>
+            
+            <div class="markdown-body">
+                <h1># Modern Portfolio Website</h1>
+                <p>A sleek, responsive portfolio template for developers designed with GitHub's signature dark aesthetic.</p>
+                
+                <ul>
+                    <li><strong>GitHub-inspired UI:</strong> Clean layout matching developer workflows.</li>
+                    <li><strong>Dark Mode:</strong> Optimized with deep dark-purple tones and glowing accents.</li>
+                    <li><strong>Projects Section:</strong> Interactive showcases for your work.</li>
+                    <li><strong>Tech Stack:</strong> HTML, CSS, JavaScript, React.</li>
+                </ul>
+
+                <h3>Project Code Preview</h3>
+                <div class="code-snippet">
+                    <code>
+                        <span class="token-selector">.project-card</span> {<br>
+                        &nbsp;&nbsp;<span class="token-property">background-color</span>: <span class="token-value">#18122B</span>;<br>
+                        &nbsp;&nbsp;<span class="token-property">color</span>: <span class="token-value">#915d1d9</span>;<br>
+                        &nbsp;&nbsp;<span class="token-property">border</span>: <span class="token-value">1px solid #21262d</span>;<br>
+                        }
+                    </code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Repository Sidebar (About, Languages, Releases) -->
+        <aside class="gh-sidebar">
+            <div class="sidebar-section">
+                <h3>About</h3>
+                <p class="about-text">DevPortfolio-Hub description. A sleek, responsive GitHub-style portfolio for developers.</p>
+                <div class="sidebar-links">
+                    <a href="#"><i class="fa-solid fa-link"></i> portfolio-hub.dev</a>
+                </div>
+            </div>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-section">
+                <h3>Releases</h3>
+                <a href="#" class="release-link"><i class="fa-solid fa-tag"></i> v1.0.0-beta <span>Latest</span></a>
+            </div>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-section">
+                <h3>Languages</h3>
+                <div class="language-bar">
+                    <span class="lang-html" style="width: 45%;"></span>
+                    <span class="lang-css" style="width: 40%;"></span>
+                    <span class="lang-js" style="width: 15%;"></span>
+                </div>
+                <ul class="language-list">
+                    <li><span class="dot html"></span> HTML <span>45%</span></li>
+                    <li><span class="dot css"></span> CSS <span>40%</span></li>
+                    <li><span class="dot js"></span> JavaScript <span>15%</span></li>
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+</body>
+</html>
