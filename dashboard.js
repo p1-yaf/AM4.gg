@@ -1,114 +1,364 @@
-const GUILD_NAME = "AM4 SMP";
-
-/*
-  لو عندك Server ID تقدر تحطه هنا لتسريع البحث.
-  سيبها فاضية لو مش عارفه، والكود هيحاول يلاقي السيرفر بالاسم.
-*/
-const GUILD_ID = "";
-
-/*
-  حط IDs الرتب هنا لو عايز يظهر اسم الرتبة الحقيقي.
-  مثال:
-  "123456789012345678": "Owner",
-  "987654321098765432": "Admin"
-*/
-const ROLE_NAMES = {
-    // "ROLE_ID": "اسم الرتبة"
-};
-
-const NEWS = [
-    {icon:"📢",title:"AM4 SMP جاهز ليك",text:"السيرفر فاتح ومستنيك تدخل تبدأ مغامرتك.",date:"06 سبتمبر 2026"},
-    {icon:"🔥",title:"آخر أخبار AM4",text:"خليك متابع الصفحة دي عشان كل جديد هينزل هنا.",date:"06 سبتمبر 2026"},
-    {icon:"⚡",title:"تحديثات مستمرة",text:"بنشتغل على السيرفر عشان التجربة تفضل أحسن كل يوم.",date:"قريباً"}
-];
+const API = "https://discord.com/api/v10";
 
 const token = localStorage.getItem("am4_token");
-const savedUser = JSON.parse(localStorage.getItem("am4_user") || "null");
 
-if(!token || !savedUser){
-    location.href = "index.html";
+
+// ==========================================
+// حماية الصفحة
+// ==========================================
+
+if (!token) {
+    window.location.replace("index.html");
 }
 
-function avatar(user){
-    if(user.avatar) return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
-    return `https://cdn.discordapp.com/embed/avatars/${Number(user.discriminator||0)%5}.png`;
+
+// ==========================================
+// Burger Menu
+// ==========================================
+
+const menuBtn = document.getElementById("menuBtn");
+const closeMenu = document.getElementById("closeMenu");
+const sideMenu = document.getElementById("sideMenu");
+const overlay = document.getElementById("overlay");
+
+function openMenu() {
+    sideMenu.classList.add("active");
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
 }
 
-function renderUser(user){
-    const name = user.global_name || user.username || "لاعب";
-    document.getElementById("welcome-name").textContent = name;
-    document.getElementById("username").textContent = name;
-    document.getElementById("discordname").textContent = user.username || "—";
-    document.getElementById("userid").textContent = "ID: " + user.id;
-    document.getElementById("avatar").src = avatar(user);
+function closeSideMenu() {
+    sideMenu.classList.remove("active");
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
 }
 
-function renderNews(){
-    document.getElementById("news-list").innerHTML = NEWS.map(n=>`
-        <article class="news-card">
-            <div class="news-icon">${n.icon}</div>
-            <h3>${n.title}</h3>
-            <p>${n.text}</p>
-            <time>${n.date}</time>
-        </article>
-    `).join("");
-}
+menuBtn.addEventListener("click", openMenu);
+closeMenu.addEventListener("click", closeSideMenu);
+overlay.addEventListener("click", closeSideMenu);
 
-async function api(path){
-    const r = await fetch("https://discord.com/api/v10"+path,{
-        headers:{Authorization:`Bearer ${token}`}
-    });
-    if(!r.ok) throw new Error(r.status);
-    return r.json();
-}
 
-async function getMembership(user){
-    const memberBox = document.getElementById("member-box");
-    const role = document.getElementById("role");
+// قفل القائمة لما يضغط على رابط
 
-    try{
-        let guildId = GUILD_ID;
+document.querySelectorAll(".menu-links a").forEach(link => {
+    link.addEventListener("click", closeSideMenu);
+});
 
-        if(!guildId){
-            const guilds = await api("/users/@me/guilds");
-            const found = guilds.find(g =>
-                (g.name || "").toLowerCase() === GUILD_NAME.toLowerCase() ||
-                (g.name || "").toLowerCase().includes("am4")
-            );
-            if(found) guildId = found.id;
-        }
 
-        if(!guildId){
-            memberBox.className="member-box no";
-            memberBox.textContent="مش لاقيين سيرفر AM4 في حسابك.";
-            role.textContent="مش عضو";
+// ==========================================
+// بيانات الأخبار
+// ==========================================
+
+const NEWS = [
+    {
+        date: "AM4 SMP",
+        title: "نورت AM4 ❤️",
+        text: "أهلاً بيك في سيرفر AM4 SMP. استمتع باللعب وابدأ مغامرتك."
+    },
+
+    {
+        date: "Server",
+        title: "السيرفر شغال 🔥",
+        text: "ادخل السيرفر مع أصحابك وابدأ تبني عالمك."
+    },
+
+    {
+        date: "Updates",
+        title: "تحديثات مستمرة ⚡",
+        text: "تابع الموقع عشان تعرف كل الأخبار والتحديثات الجديدة."
+    }
+];
+
+
+// ==========================================
+// التحقق من تسجيل الدخول
+// ==========================================
+
+async function checkLogin() {
+
+    if (!token) return;
+
+    try {
+
+        const response = await fetch(`${API}/users/@me`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+
+        // Token غير صالح
+
+        if (!response.ok) {
+
+            localStorage.removeItem("am4_token");
+            localStorage.removeItem("am4_user");
+
+            window.location.replace("index.html");
+
             return;
         }
 
-        const member = await api(`/users/@me/guilds/${guildId}/member`);
 
-        memberBox.className="member-box ok";
-        memberBox.textContent="أنت عضو في سيرفر AM4 ❤️";
+        const user = await response.json();
 
-        const ids = member.roles || [];
-        const named = ids.map(id => ROLE_NAMES[id]).filter(Boolean);
+        loadUser(user);
+        loadNews();
 
-        role.textContent = named.length ? named[0] : (ids.length ? "عضو في AM4" : "@everyone");
+        checkGuild();
 
-    }catch(e){
-        console.error(e);
-        memberBox.className="member-box no";
-        memberBox.textContent="مش قادرين نجيب بيانات عضويتك دلوقتي. اتأكد إن الموقع واخد صلاحية قراءة عضويتك.";
-        role.textContent="غير متاحة";
+    } catch (error) {
+
+        console.error(error);
+
+        localStorage.removeItem("am4_token");
+        localStorage.removeItem("am4_user");
+
+        window.location.replace("index.html");
     }
 }
 
-document.getElementById("logout").addEventListener("click",()=>{
-    localStorage.removeItem("am4_token");
-    localStorage.removeItem("am4_user");
-    location.href="index.html";
-});
 
-renderUser(savedUser);
-renderNews();
-getMembership(savedUser);
+// ==========================================
+// بيانات المستخدم
+// ==========================================
+
+function loadUser(user) {
+
+    const name =
+        user.global_name ||
+        user.username ||
+        "Player";
+
+
+    const welcomeName =
+        document.getElementById("welcomeName");
+
+    const displayName =
+        document.getElementById("displayName");
+
+    const username =
+        document.getElementById("username");
+
+    const userId =
+        document.getElementById("userId");
+
+    const avatar =
+        document.getElementById("avatar");
+
+
+    if (welcomeName) {
+        welcomeName.textContent =
+            `أهلاً بيك يا ${name} 👋`;
+    }
+
+
+    if (displayName) {
+        displayName.textContent = name;
+    }
+
+
+    if (username) {
+        username.textContent =
+            `@${user.username}`;
+    }
+
+
+    if (userId) {
+        userId.textContent = user.id;
+    }
+
+
+    if (avatar) {
+
+        if (user.avatar) {
+
+            avatar.src =
+                `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
+
+        } else {
+
+            avatar.src =
+                "https://cdn.discordapp.com/embed/avatars/0.png";
+
+        }
+    }
+}
+
+
+// ==========================================
+// التحقق من سيرفر AM4
+// ==========================================
+
+async function checkGuild() {
+
+    try {
+
+        const response = await fetch(
+            `${API}/users/@me/guilds`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+
+        if (!response.ok) {
+            showNotMember();
+            return;
+        }
+
+
+        const guilds = await response.json();
+
+
+        const am4 = guilds.find(guild =>
+            guild.name.toLowerCase().includes("am4")
+        );
+
+
+        if (am4) {
+
+            showMember();
+
+        } else {
+
+            showNotMember();
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        showNotMember();
+    }
+}
+
+
+function showMember() {
+
+    const status =
+        document.getElementById("membershipStatus");
+
+    const role =
+        document.getElementById("membershipRole");
+
+
+    if (status) {
+        status.textContent =
+            "أنت عضو في سيرفر AM4 ❤️";
+    }
+
+    if (role) {
+        role.textContent =
+            "عضو في مجتمع AM4 SMP";
+    }
+}
+
+
+function showNotMember() {
+
+    const status =
+        document.getElementById("membershipStatus");
+
+    const role =
+        document.getElementById("membershipRole");
+
+
+    if (status) {
+        status.textContent =
+            "مش موجود في سيرفر AM4";
+    }
+
+    if (role) {
+        role.textContent =
+            "تقدر تدخل السيرفر وتبدأ لعبك مع باقي اللاعبين.";
+    }
+}
+
+
+// ==========================================
+// الأخبار
+// ==========================================
+
+function loadNews() {
+
+    const container =
+        document.getElementById("newsContainer");
+
+
+    if (!container) return;
+
+
+    container.innerHTML = "";
+
+
+    NEWS.forEach(news => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "news-card";
+
+
+        card.innerHTML = `
+            <span>${news.date}</span>
+            <h3>${news.title}</h3>
+            <p>${news.text}</p>
+        `;
+
+
+        container.appendChild(card);
+
+    });
+}
+
+
+// ==========================================
+// نسخ IP / Port
+// ==========================================
+
+async function copyText(elementId, button) {
+
+    const element =
+        document.getElementById(elementId);
+
+
+    if (!element) return;
+
+
+    const text =
+        element.textContent.trim();
+
+
+    try {
+
+        await navigator.clipboard.writeText(text);
+
+        const oldText =
+            button.textContent;
+
+        button.textContent =
+            "تم ✓";
+
+
+        setTimeout(() => {
+            button.textContent = oldText;
+        }, 1500);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+}
+
+
+// ==========================================
+// تشغيل
+// ==========================================
+
+checkLogin();
