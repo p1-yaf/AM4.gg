@@ -13,7 +13,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 15px;
 }
 
 .overlay {
@@ -22,65 +22,70 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(5, 10, 25, 0.9), rgba(15, 5, 25, 0.85));
+    background: linear-gradient(135deg, rgba(5, 10, 25, 0.92), rgba(15, 5, 25, 0.9));
     z-index: 1;
 }
 
 .main-card {
     position: relative;
     z-index: 2;
-    background: rgba(18, 22, 35, 0.85);
+    background: rgba(18, 22, 35, 0.9);
     border: 2px solid rgba(0, 210, 255, 0.4);
     border-radius: 20px;
-    padding: 35px 30px;
+    padding: 25px 20px;
     width: 100%;
-    max-width: 480px;
+    max-width: 440px;
     box-shadow: 0 0 35px rgba(0, 150, 255, 0.25), inset 0 0 15px rgba(0, 210, 255, 0.1);
     backdrop-filter: blur(10px);
     text-align: center;
 }
 
 .logo-container {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
+/* تحجيم الصورة بدقة إجبارية عشان متكبرش وتخرب الشكل */
 .server-logo {
-    width: 110px;
-    height: 110px;
+    width: 80px !important;
+    height: 80px !important;
+    max-width: 80px !important;
+    max-height: 80px !important;
     object-fit: contain;
     filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.5));
+    display: block;
+    margin: 0 auto;
 }
 
 .main-title {
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 800;
     color: #00d2ff;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     text-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
 }
 
 .subtitle {
-    font-size: 13px;
+    font-size: 12px;
     color: #8da4c4;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .countdown-section {
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 12px;
 }
 
 .section-label {
-    font-size: 13px;
+    font-size: 12px;
     color: #b0c4de;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .section-label i {
@@ -88,7 +93,7 @@ body {
 }
 
 .timer-display {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
     font-family: 'Courier New', Courier, monospace;
     color: #00ffcc;
@@ -96,7 +101,7 @@ body {
     text-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
 }
 
-/* تصميم وأنيميشن وميض اللون الأحمر للأرقام عند انتهاء الوقت */
+/* أنيميشن وميض اللون الأحمر للأرقام عند انتهاء الوقت */
 .timer-display.ended {
     color: #ff3333 !important;
     text-shadow: 0 0 15px rgba(255, 51, 51, 0.8);
@@ -114,7 +119,7 @@ body {
 }
 
 .server-info-box {
-    margin-top: 25px;
+    margin-top: 20px;
     animation: fadeIn 0.8s ease-in-out;
 }
 
@@ -127,11 +132,11 @@ body {
     background: rgba(0, 255, 204, 0.15);
     border: 1px solid #00ffcc;
     color: #00ffcc;
-    padding: 10px;
+    padding: 8px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
 }
 
@@ -139,15 +144,15 @@ body {
     background: rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(0, 210, 255, 0.2);
     border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
     text-align: right;
 }
 
 .info-card h3 {
-    font-size: 13px;
+    font-size: 12px;
     color: #00d2ff;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -157,12 +162,13 @@ body {
     background: rgba(255, 255, 255, 0.05);
     border: 1px dashed rgba(255, 255, 255, 0.2);
     border-radius: 6px;
-    padding: 8px 12px;
+    padding: 8px 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    gap: 8px;
 }
 
 .copy-box:hover {
@@ -172,29 +178,27 @@ body {
 
 .ip-text {
     font-family: monospace;
-    font-size: 13px;
+    font-size: 12px;
     color: #fff;
     direction: ltr;
+    word-break: break-all;
 }
 
 .copy-hint {
-    font-size: 11px;
+    font-size: 10px;
     color: #8da4c4;
+    white-space: nowrap;
 }
 
 .bedrock-details {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-}
-
-.small-box {
-    padding: 6px 12px;
+    gap: 6px;
 }
 
 .label {
     color: #00d2ff;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
-    margin-right: 5px;
+    margin-left: 4px;
 }
